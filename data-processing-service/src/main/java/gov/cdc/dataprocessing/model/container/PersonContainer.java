@@ -9,6 +9,7 @@ import gov.cdc.dataprocessing.model.dto.person.PersonDto;
 import gov.cdc.dataprocessing.model.dto.person.PersonEthnicGroupDto;
 import gov.cdc.dataprocessing.model.dto.person.PersonNameDto;
 import gov.cdc.dataprocessing.model.dto.person.PersonRaceDto;
+import io.github.pixee.security.ObjectInputFilters;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,6 +57,7 @@ public class PersonContainer extends LdfBaseVO implements Serializable {
             // Deserialize the object
             ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bis);
+            ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
             return (PersonContainer) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
