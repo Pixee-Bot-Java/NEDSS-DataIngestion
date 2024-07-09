@@ -423,11 +423,11 @@ public class CustomRepositoryImpl implements CustomRepository {
                 "FROM person_name with (nolock) , observation with (nolock), " +
                 "participation with (nolock) WHERE person_name.person_uid = participation.subject_entity_uid " +
                 "AND participation.act_uid = observation.observation_uid " +
-                "AND participation.type_cd = '" + partTypeCd + "'" + " AND participation.subject_class_cd='PSN' " +
+                "AND participation.type_cd = :parameter0" + " AND participation.subject_class_cd='PSN' " +
                 "AND observation.observation_uid = "  + observationUID;
 
         var theSelect = ORD_PROVIDER_MSQL + ORD_PROVIDER;
-        Query query = entityManager.createNativeQuery(theSelect);
+        Query query = entityManager.createNativeQuery(theSelect).setParameter(":parameter0", partTypeCd);
         List<Object[]> results = query.getResultList();
         if (results != null && !results.isEmpty()) {
             for(var item : results) {
@@ -475,16 +475,12 @@ public class CustomRepositoryImpl implements CustomRepository {
                 + "participation.subject_entity_uid \"subjectEntityUid\" "
                 + "from observation with (nolock), participation with (nolock)"
                 + "WHERE participation.act_uid = observation.observation_uid "
-                + "AND participation.type_cd in(\'"
-                + NEDSSConstant.PAR111_TYP_CD + "\',\'"
-                + NEDSSConstant.PAR104_TYP_CD + "\',\'"
-                + NEDSSConstant.PAR110_TYP_CD + "\',\'"
-                + NEDSSConstant.PAR101_TYP_CD + "\')"
+                + "AND participation.type_cd in(\:parameter0" + ",\:parameter1" + ",\:parameter2" + ",\:parameter3" + ")"
                 + "AND observation.observation_uid = " + observationUID.toString();
         String theSelect=  QUICK_FIND_PATIENT_MSQL+QUICK_FIND_PATIENT;
 
         Map<Object,Object> vals = new HashMap<Object,Object>();
-        Query query = entityManager.createNativeQuery(theSelect);
+        Query query = entityManager.createNativeQuery(theSelect).setParameter(":parameter0", NEDSSConstant.PAR111_TYP_CD + "\").setParameter(":parameter1", NEDSSConstant.PAR104_TYP_CD + "\").setParameter(":parameter2", NEDSSConstant.PAR110_TYP_CD + "\").setParameter(":parameter3", NEDSSConstant.PAR101_TYP_CD + "\");
         List<Object[]> results = query.getResultList();
         if (results != null && !results.isEmpty()) {
             for(var item : results) {
