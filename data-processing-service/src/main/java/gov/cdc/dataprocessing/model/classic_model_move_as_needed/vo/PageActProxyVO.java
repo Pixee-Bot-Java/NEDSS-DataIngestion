@@ -9,6 +9,7 @@ import gov.cdc.dataprocessing.model.classic_model_move_as_needed.dto.ExportRecei
 import gov.cdc.dataprocessing.model.dto.log.MessageLogDto;
 import gov.cdc.dataprocessing.model.dto.participation.ParticipationDto;
 import gov.cdc.dataprocessing.model.container.PersonContainer;
+import io.github.pixee.security.ObjectInputFilters;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -79,6 +80,7 @@ public class PageActProxyVO  extends BaseContainer {
         oos.writeObject(this);
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         ObjectInputStream ois = new ObjectInputStream(bais);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
         Object deepCopy = ois.readObject();
 
         return  deepCopy;
