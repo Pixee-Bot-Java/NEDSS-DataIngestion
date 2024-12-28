@@ -1,6 +1,7 @@
 package gov.cdc.dataprocessing.model.dto.lookup;
 
 import gov.cdc.dataprocessing.model.container.BaseContainer;
+import io.github.pixee.security.ObjectInputFilters;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,6 +55,7 @@ public class PrePopMappingDto extends BaseContainer {
         oos.writeObject(this);
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         ObjectInputStream ois = new ObjectInputStream(bais);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
         Object deepCopy = ois.readObject();
 
         return  deepCopy;
