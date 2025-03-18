@@ -89,7 +89,9 @@ public class NotificationService implements INotificationService {
     private Long getRootUid(BaseContainer vo)
     {
         if (vo == null)
-            return null;
+            {
+                return null;
+            }
 
 //        // for now only implement three
 //        if (vo instanceof MorbidityProxyVO) {
